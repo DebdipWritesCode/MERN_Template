@@ -1,5 +1,5 @@
-import User from "../models/User";
-import Session from "../models/Session";
+import User from "../models/User.js";
+import Session from "../models/Session.js";
 
 const ACCESS_TOKEN_EXPIRY = "15m";
 const REFRESH_TOKEN_EXPIRY = "48h";

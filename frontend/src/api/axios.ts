@@ -22,8 +22,8 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     if (
-      originalRequest.url.includes("/login_user") ||
-      originalRequest.url.includes("/refresh_access_token")
+      originalRequest.url.includes("/auth/login") ||
+      originalRequest.url.includes("/auth/refresh_access_token")
     ) {
       return Promise.reject(error);
     }
@@ -32,7 +32,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const res = await axios.post(
-          `${getBackendUrl()}/refresh_access_token`,
+          `${getBackendUrl()}/auth/refresh_access_token`,
           {},
           { withCredentials: true }
         );

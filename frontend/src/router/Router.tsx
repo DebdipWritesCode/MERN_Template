@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import Landing from "@/pages/Landing";
+import Dashboard from "@/pages/Dashboard";
 
 const Router = () => {
   return (
@@ -23,7 +24,7 @@ const Router = () => {
           </ProtectedRoute>
         }
       >
-        {/* Define your protected routes here */}
+        <Route path="/dashboard" element={<Dashboard />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />
