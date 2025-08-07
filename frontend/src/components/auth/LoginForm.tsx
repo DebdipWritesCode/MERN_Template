@@ -57,7 +57,7 @@ const LoginForm = () => {
     try {
       const { ...loginData } = values;
 
-      const response = await api.post("/login", loginData);
+      const response = await api.post("/auth/login", loginData);
 
       if (response.status === 200) {
         const { jwt_token } = response.data;

@@ -46,7 +46,7 @@ const SignupForm = () => {
     try {
       const { confirmPassword, ...signupData } = values;
 
-      const response = await api.post("/signup", signupData);
+      const response = await api.post("/auth/signup", signupData);
 
       if (response.status === 200) {
         toast.success("Account created successfully! Please log in.");
