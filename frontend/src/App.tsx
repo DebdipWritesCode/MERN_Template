@@ -4,13 +4,11 @@ import axios from "./api/axios";
 import { setAccessToken, clearAccessToken } from "./slices/authSlice";
 import type { RootState } from "./redux/store";
 import Router from "./router/Router";
-import { useNavigate } from "react-router-dom";
+import Loading from "./components/Loading";
 
 const App = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const loading = useSelector((state: RootState) => state.auth.loading);
 
   useEffect(() => {
@@ -25,17 +23,9 @@ const App = () => {
     refreshToken();
   }, [dispatch]);
 
-  useEffect(() => {
-    if (!loading) {
-      if (accessToken) {
-        navigate("/dashboard");
-      } else {
-        navigate("/");
-      }
-    }
-  }, [accessToken, loading, navigate]);
-
-  if (loading) return <div>Loading...</div>; // 👈 Don't render anything until we know
+  if (loading) return (
+    <Loading />
+  )
 
   return <Router />;
 };
