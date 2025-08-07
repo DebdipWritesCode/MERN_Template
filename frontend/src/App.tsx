@@ -1,8 +1,29 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "./api/axios";
+import { setAccessToken, clearAccessToken } from "./slices/authSlice";
+import type { RootState } from "./redux/store";
+import Router from "./router/Router";
 
 const App = () => {
-  return (
-    <div>App</div>
-  )
-}
+  const dispatch = useDispatch();
+  const loading = useSelector((state: RootState) => state.auth.loading);
 
-export default App
+  useEffect(() => {
+    const refreshToken = async () => {
+      try {
+        const res = await axios.post("/refresh_access_token", {}, { withCredentials: true }); // ✅ Ensure this
+        dispatch(setAccessToken(res.data));
+      } catch {
+        dispatch(clearAccessToken());
+      }
+    };
+    refreshToken();
+  }, [dispatch]);
+
+  if (loading) return <div>Loading...</div>; // 👈 Don't render anything until we know
+
+  return <Router />;
+};
+
+export default App;
