@@ -2,7 +2,7 @@ import { features, featuresHeaders } from "@/constants/landing";
 
 export default function Feature1() {
   return (
-    <section className="relative py-14">
+    <section className="relative py-14 ">
       <div className="mx-auto max-w-screen-xl px-4 md:px-8">
         <div className="relative mx-auto max-w-2xl sm:text-center">
           <div className="relative z-10">

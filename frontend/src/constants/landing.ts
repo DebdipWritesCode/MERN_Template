@@ -116,3 +116,39 @@ export const featuresHeaders = {
   subtitle:
     "We&apos;ve engineered QuickVoice to be a seamless, powerful, and secure extension of your brand. Here&apos;s how we deliver unrivaled value.",
 };
+
+export const footerData = {
+  facebookLink: 'https://facebook.com/mvpblocks',
+  instaLink: 'https://instagram.com/mvpblocks',
+  twitterLink: 'https://twitter.com/mvpblocks',
+  githubLink: 'https://github.com/mvpblocks',
+  dribbbleLink: 'https://dribbble.com/mvpblocks',
+  services: {
+    webdev: '/web-development',
+    webdesign: '/web-design',
+    marketing: '/marketing',
+    googleads: '/google-ads',
+  },
+  about: {
+    history: '/company-history',
+    team: '/meet-the-team',
+    handbook: '/employee-handbook',
+    careers: '/careers',
+  },
+  help: {
+    faqs: '/faqs',
+    support: '/support',
+    livechat: '/live-chat',
+  },
+  contact: {
+    email: 'info@quickvoice.co',
+    phone: '+91 8637373116',
+    address: 'Kolkata, West Bengal, India',
+  },
+  company: {
+    name: 'Quick Voice',
+    description:
+      'Building beautiful and functional web experiences with modern technologies. We help startups and businesses create their digital presence.',
+    logo: '/logo.webp',
+  },
+};

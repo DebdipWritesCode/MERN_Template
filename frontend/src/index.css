@@ -17,6 +17,7 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-rgb: var(--primary-rgb);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -59,9 +60,10 @@
   --popover-foreground: var(--foreground);
 
   --primary: oklch(0.5 0.16 280);     /* Soft violet-blue */
+  --primary-rgb: 80, 60, 200; /* RGB equivalent for primary */
   --primary-foreground: oklch(1 0 0); /* White text on primary */
 
-  --secondary: oklch(0.92 0.08 100);  /* Soft yellow */
+  --secondary: oklch(98.028% 0.04434 100.307);  /* Soft yellow */
   --secondary-foreground: var(--foreground);
 
   --muted: oklch(0.9 0.02 250);       /* Light grayish-blue */
@@ -107,6 +109,7 @@
   --popover-foreground: var(--foreground);
 
   --primary: oklch(0.7 0.16 280);       /* More saturated for dark mode */
+  --primary-rgb: 80, 60, 200; /* RGB equivalent for primary */
   --primary-foreground: oklch(0.1 0.01 280);
 
   --secondary: oklch(0.4 0.08 100);
