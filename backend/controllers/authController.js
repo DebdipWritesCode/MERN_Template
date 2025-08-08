@@ -1,5 +1,7 @@
 import User from "../models/User.js";
 import Session from "../models/Session.js";
+import bcrypt from "bcryptjs";
+import { createToken, verifyToken } from "../utils/token.js";
 
 const ACCESS_TOKEN_EXPIRY = "15m";
 const REFRESH_TOKEN_EXPIRY = "48h";
@@ -21,7 +23,7 @@ export const signupUser = async (req, res) => {
       passwordHash,
     });
 
-    res.status(201).json({
+    res.status(200).json({
       message: "User created successfully",
       user: { name: user.name, email: user.email },
     });
@@ -65,9 +67,19 @@ export const loginUser = async (req, res) => {
     maxAge: 48 * 60 * 60 * 1000,
   });
 
-  res.json({
+  res.status(200).json({
+    message: "Login successful",
     jwt_token: accessToken,
-    user: { name: user.name, email: user.email },
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      created_at: user.created_at,
+    },
+    metadata: {
+      user_agent: "RandomBrowser/1.0",
+      client_ip: "123.45.67.89",
+    },
   });
 };
 
