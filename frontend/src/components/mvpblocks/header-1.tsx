@@ -4,38 +4,7 @@ import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
 import ThemeToggle from "../ThemeToggle";
-
-interface NavItem {
-  name: string;
-  to: string;
-  hasDropdown?: boolean;
-  dropdownItems?: { name: string; to: string; description?: string }[];
-}
-
-const navItems: NavItem[] = [
-  { name: "Home", to: "/" },
-  { name: "Agents", to: "/agents" },
-  {
-    name: "Products",
-    to: "/products",
-    hasDropdown: true,
-    dropdownItems: [
-      {
-        name: "Analytics",
-        to: "/analytics",
-        description: "Track your metrics",
-      },
-      {
-        name: "Dashboard",
-        to: "/dashboard",
-        description: "Manage your data",
-      },
-      { name: "Reports", to: "/reports", description: "Generate insights" },
-    ],
-  },
-  { name: "Pricing", to: "/pricing" },
-  { name: "About", to: "/about" },
-];
+import { navItems } from "@/constants/landing";
 
 export default function Header1() {
   const [isScrolled, setIsScrolled] = useState(false);

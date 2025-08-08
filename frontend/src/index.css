@@ -4,8 +4,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-home-background: var(--bg-gradient);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
+  --dashboard-src: var(--dashboard-src);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --color-background: var(--background);
@@ -42,6 +44,9 @@
 }
 
 :root {
+  --bg-gradient: linear-gradient(135deg, oklch(0.98 0.01 250) 0%, oklch(92.646% 0.02423 254.034) 100%);
+  --dashboard-src: url("/light-dashboard.png");
+
   --radius: 0.625rem;
   
   --background: oklch(0.98 0.01 250); /* Near white, cool */
@@ -89,6 +94,9 @@
 }
 
 .dark {
+  --bg-gradient: linear-gradient(135deg, oklch(0.14 0.01 250) 0%, oklch(18.895% 0.03055 255.437) 100%);
+  --dashboard-src: url("/dark-dashboard.png");
+
   --background: oklch(0.14 0.01 250);   /* Very dark blue-gray */
   --foreground: oklch(0.98 0.01 250);   /* Near white */
 
