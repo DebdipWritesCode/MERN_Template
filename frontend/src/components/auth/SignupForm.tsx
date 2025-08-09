@@ -30,6 +30,8 @@ const signupFormSchema = z
 
 const SignupForm = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
@@ -44,7 +46,11 @@ const SignupForm = () => {
   const onSubmit = async (values: z.infer<typeof signupFormSchema>) => {
     setLoading(true);
     try {
-      const { confirmPassword, ...signupData } = values;
+      const signupData = {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      };
 
       const response = await api.post("/auth/signup", signupData);
 
@@ -53,19 +59,20 @@ const SignupForm = () => {
       } else {
         throw new Error("Unexpected response from server");
       }
-    } catch (err: any) {
-      if (err.response) {
-        if (err.response.status === 409) {
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { status?: number; data?: { message?: string } } ; request?: unknown } | undefined;
+      if (axiosErr?.response) {
+        if (axiosErr.response.status === 409) {
           toast.error("Email already exists. Please use a different email.");
-        } else if (err.response.data?.message) {
-          toast.error(err.response.data.message);
+        } else if (axiosErr.response.data?.message) {
+          toast.error(axiosErr.response.data.message);
         } else {
           toast.error("Registration failed. Please try again.");
         }
-      } else if (err.request) {
+      } else if (axiosErr?.request) {
         toast.error("No response from server. Please check your connection.");
       } else {
-        toast.error("An error occurred: " + err.message);
+        toast.error("An error occurred. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -76,7 +83,9 @@ const SignupForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-md mx-auto flex flex-col gap-6">
+        className="max-w-md mx-auto flex flex-col gap-6"
+        aria-label="Sign up form"
+      >
         <FormField
           control={form.control}
           name="name"
@@ -84,7 +93,7 @@ const SignupForm = () => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} />
+                <Input placeholder="John Doe" autoComplete="name" aria-required="true" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,7 +107,7 @@ const SignupForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="john@example.com" {...field} />
+                <Input type="email" inputMode="email" autoComplete="email" placeholder="john@example.com" aria-required="true" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -112,7 +121,23 @@ const SignupForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    autoComplete="new-password"
+                    aria-required="true"
+                    {...field}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((s) => !s)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-600 hover:text-gray-900"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -126,14 +151,30 @@ const SignupForm = () => {
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <div className="relative">
+                  <Input
+                    type={showConfirm ? "text" : "password"}
+                    placeholder="••••••••"
+                    autoComplete="new-password"
+                    aria-required="true"
+                    {...field}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirm((s) => !s)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-600 hover:text-gray-900"
+                    aria-label={showConfirm ? "Hide password" : "Show password"}
+                  >
+                    {showConfirm ? "Hide" : "Show"}
+                  </button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={loading}>
+  <Button type="submit" className="w-full" disabled={loading} aria-busy={loading}>
           {loading ? "Signing up..." : "Sign Up"}
         </Button>
       </form>

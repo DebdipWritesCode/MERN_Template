@@ -41,6 +41,7 @@ const loginFormSchema = z
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -86,12 +87,14 @@ const LoginForm = () => {
       } else {
         throw new Error("Unexpected response from server");
       }
-    } catch (err: any) {
-      if (err.response) {
-        if (err.response.status === 401) {
+    } catch (err: unknown) {
+      // Narrow common axios-like error shapes safely without using any
+      const axiosErr = err as { response?: { status?: number; data?: { message?: string } } } | undefined;
+      if (axiosErr?.response) {
+        if (axiosErr.response.status === 401) {
           toast.error("Invalid email or password. Please try again.");
-        } else if (err.response.data?.message) {
-          toast.error(err.response.data.message);
+        } else if (axiosErr.response.data?.message) {
+          toast.error(axiosErr.response.data.message);
         } else {
           toast.error("An unexpected error occurred. Please try again later.");
         }
@@ -107,7 +110,9 @@ const LoginForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-md mx-auto flex flex-col gap-6">
+        className="max-w-md mx-auto flex flex-col gap-6"
+        aria-label="Sign in form"
+      >
         <FormField
           control={form.control}
           name="email"
@@ -115,7 +120,14 @@ const LoginForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="john@example.com" {...field} />
+                <Input
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  placeholder="john@example.com"
+                  aria-required="true"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,14 +141,30 @@ const LoginForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                    aria-required="true"
+                    {...field}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((s) => !s)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-600 hover:text-gray-900"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full" disabled={loading} aria-busy={loading}>
           {loading ? "Logging in..." : "Log In"}
         </Button>
       </form>
