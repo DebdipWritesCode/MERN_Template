@@ -1,3 +1,4 @@
+import GoogleLoginButton from "@/components/auth/GoogleAuthButton";
 import LoginForm from "@/components/auth/LoginForm";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +30,12 @@ const Login = () => {
         </CardHeader>
         <CardContent>
           <LoginForm />
+          <div className="flex items-center my-4">
+            <div className="flex-1 h-px bg-gray-300"></div>
+            <span className="px-3 text-sm text-gray-500">OR</span>
+            <div className="flex-1 h-px bg-gray-300"></div>
+          </div>
+          <GoogleLoginButton />
         </CardContent>
       </Card>
     </div>
